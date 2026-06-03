@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Local Claude config
+.claude/
+
+# Environment / secrets
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS
+.DS_Store
