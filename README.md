@@ -2,7 +2,7 @@
 
 A small conversational weather agent that doubles as a **demo of [Ink](https://github.com/vadimdemedes/ink)** — the React renderer for interactive command-line apps. It shows how much polish you can bring to a plain terminal: gradient banners, chat bubbles, live token-by-token streaming, in-terminal markdown rendering, and interactive permission prompts — all driven by React components.
 
-The agent itself is powered by the [`@github/copilot-sdk`](https://www.npmjs.com/package/@github/copilot-sdk) talking to an OpenAI-compatible model, with two tools: looking up live weather (via [Open-Meteo](https://open-meteo.com/)) and writing markdown files to disk.
+The agent itself is powered by the [`@github/copilot-sdk`](https://www.npmjs.com/package/@github/copilot-sdk) talking to an OpenAI-compatible model, with tools for live weather (via [Open-Meteo](https://open-meteo.com/)), writing markdown files to disk, and driving a headless browser ([`playwright-core`](https://playwright.dev/)) to screenshot, read, or save web pages.
 
 ## What this demonstrates about Ink
 
@@ -26,17 +26,17 @@ When you launch the app, Ink renders this:
           ⛅  your friendly forecast companion  🌤
 
  ╭──────────────────────────────────────────────────────────╮
+ │                                                          │
+ │  ✨ Try asking                                           │
  │                                                           │
- │  ✨ Try asking                                            │
- │                                                           │
- │     › What's the weather in Boston?                       │
- │     › Is it raining in Seattle right now?                 │
- │     › Compare Austin and Denver, save to report.md        │
+ │     › What's the weather in Boston?                      │
+ │     › Screenshot news.ycombinator.com                    │
+ │     › Open example.com and save a summary to page.md     │
  │                                                           │
  ╰──────────────────────────────────────────────────────────╯
 
  ╭──────────────────────────────────────────────────────────╮
- │  ❯ Ask about the weather in any US city…                  │
+ │  ❯ Ask about the weather in any US city…                 │
  ╰──────────────────────────────────────────────────────────╯
   ↵ send · type exit or Ctrl+C to quit
 ```

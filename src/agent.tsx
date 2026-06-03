@@ -10,6 +10,12 @@ import { CopilotClient } from "@github/copilot-sdk";
 import type { PermissionHandler, PermissionRequestResult } from "@github/copilot-sdk";
 import { getWeatherTool } from "./weather-tool.js";
 import { writeMarkdownTool } from "./write-file-tool.js";
+import {
+  browserScreenshotTool,
+  browserExtractTextTool,
+  browserSavePdfTool,
+  browserOutputDir,
+} from "./browser-tools.js";
 
 const apiKey = process.env.OPENAI_API_KEY ?? process.env.COPILOT_PROVIDER_API_KEY;
 if (!apiKey) {
@@ -101,14 +107,21 @@ const session = await client.createSession({
     apiKey,
   },
   streaming: true,
-  tools: [getWeatherTool, writeMarkdownTool],
+  tools: [
+    getWeatherTool,
+    writeMarkdownTool,
+    browserScreenshotTool,
+    browserExtractTextTool,
+    browserSavePdfTool,
+  ],
   systemMessage: {
     content: [
-      "You are a helpful weather assistant for US cities.",
-      "When a user asks about the weather, use the get_weather tool to look up current conditions.",
-      "Present the results in a friendly, concise way.",
-      "If the user asks about a non-US city, let them know you only support US cities.",
-      "When the user asks to save or write something to a file, use the write_markdown tool to write a markdown file in the current directory.",
+      "You are a friendly assistant that specializes in weather but can also browse the web with a headless browser.",
+      "For weather: use the get_weather tool to look up current US conditions and present them concisely. If asked about a non-US city, say you only support US cities for live weather.",
+      "Browser tools: use browser_screenshot to capture a full-page PNG of a website, browser_extract_text to read or summarize a page's text content, and browser_save_pdf to archive a page as a PDF.",
+      "Feel free to combine tools — e.g. read a page with browser_extract_text then use write_markdown to save a summary, or take a screenshot and report where it was saved.",
+      `Screenshots and PDFs are saved under "${browserOutputDir}". Always tell the user the exact file path of anything you save.`,
+      "When the user asks to save or write text/markdown, use the write_markdown tool (it writes to the current directory).",
     ].join(" "),
   },
   onPermissionRequest,
@@ -130,8 +143,8 @@ function Banner() {
 function WelcomeCard() {
   const examples = [
     "What's the weather in Boston?",
-    "Is it raining in Seattle right now?",
-    "Compare Austin and Denver, then save it to report.md",
+    "Screenshot news.ycombinator.com",
+    "Open example.com and save a summary to page.md",
   ];
   return (
     <Box

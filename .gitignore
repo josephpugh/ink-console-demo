@@ -4,6 +4,9 @@ node_modules/
 # Build output
 dist/
 
+# Playwright MCP browser output (screenshots, PDFs, traces)
+playwright-output/
+
 # Local Claude config
 .claude/
 
